@@ -153,13 +153,13 @@ app.get("/", function(req, res) {
     if (req.user.battletag) {
       output += req.user.battletag + "<br>";
     }
-    output += '<a href="/logout">Logout</a>';
+    output += "<a href=\"/logout\">Logout</a>";
     res.send(output);
   } else {
     res.send(
       "<h1>Express OAuth Test</h1>" +
-        '<a href="/auth/github">Login with Github</a><br>' +
-        '<a href="/auth/bnet">Login with Bnet</a>'
+        "<a href=\"/auth/github\">Login with Github</a><br>" +
+        "<a href=\"/auth/bnet\">Login with Bnet</a>"
     );
   }
 });
