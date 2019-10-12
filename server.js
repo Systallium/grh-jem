@@ -7,12 +7,25 @@ var passportSetup = require("./config/passport-setup");
 var keys = require("./config/keys");
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
+var cookieSession = require("cookie-session");
 
 var BnetStrategy = require("passport-bnet").Strategy;
 var GitHubStrategy = require("passport-github").Strategy;
 var db = require("./models");
 
 var app = express();
+app.set("view engine", ejs);
+
+app.use(
+  cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: [keys.session.cookieKey]
+  })
+);
+
+//initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
 var PORT = process.env.PORT || 3000;
 
 // Middleware
@@ -58,7 +71,6 @@ db.sequelize.sync(syncOptions).then(function() {
     );
   });
 });
-
 
 var GITHUB_ID = process.env.GITHUB_ID;
 var GITHUB_SECRET = process.env.GITHUB_SECRET;
@@ -153,13 +165,13 @@ app.get("/", function(req, res) {
     if (req.user.battletag) {
       output += req.user.battletag + "<br>";
     }
-    output += "<a href=\"/logout\">Logout</a>";
+    output += '<a href="/logout">Logout</a>';
     res.send(output);
   } else {
     res.send(
       "<h1>Express OAuth Test</h1>" +
-        "<a href=\"/auth/github\">Login with Github</a><br>" +
-        "<a href=\"/auth/bnet\">Login with Bnet</a>"
+        '<a href="/auth/github">Login with Github</a><br>' +
+        '<a href="/auth/bnet">Login with Bnet</a>'
     );
   }
 });
