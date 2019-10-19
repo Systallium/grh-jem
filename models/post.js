@@ -1,24 +1,17 @@
 module.exports = function(sequelize, DataTypes) {
     var Post = sequelize.define("Post", {
 
-    created: Date,
-    author: {
-        type: ObjectId,
-        ref: 'User'
+    created: DataTypes.DATE,
+    author: {  
+        type: DataTypes.STRING,
+        // ref: 'User'
     },
     thread: {
-        type: ObjectId,
-        ref: 'Thread'
+        type: DataTypes.STRING,
+        // ref: 'Thread'
     },
-    content: String,
-    edited: {
-        user: {
-            type: ObjectId,
-            ref: 'User'
-        },
-        date: Date
-    },
-    deleted: false
+    content: DataTypes.STRING,
+    deleted: DataTypes.BOOLEAN
 
 });
 return Post

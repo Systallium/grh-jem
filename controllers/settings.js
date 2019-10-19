@@ -1,6 +1,6 @@
 var CONFIG = require('../config/config');
-var Guild = require('../app/models/guild');
-var User = require('../app/models/user');
+var Guild = require('../models/guild');
+var User = require('../models/user');
 var request = require('../request');
 
 module.exports = {

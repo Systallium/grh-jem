@@ -1,6 +1,6 @@
-var User = require('../app/models/user');
-var Guild = require('../app/models/guild');
-var request = require('../app/request');
+var User = require('../models/user');
+var Guild = require('../models/guild');
+var request = require('../request');
 var __ = require('lodash');
 
 function login(data, profile, err, user, done) {
@@ -182,7 +182,7 @@ module.exports = {
                 user.mainCharacter.realm = realm;
                 user.mainCharacter.classNum = classNum;
                 user.mainCharacter.thumb = thumb;
-                user.role.admin = req.user.battletag === 'Lup#1749';
+                user.role.admin = req.user.battletag === 'Mijumaru#1657';
                 user.role.officer = isOfficer;
                 user.role.member = isMember;
 

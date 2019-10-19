@@ -1,4 +1,4 @@
-var Guild = require('../app/models/guild');
+var Guild = require('../models/guild');
 var __ = require('lodash');
 
 module.exports = {

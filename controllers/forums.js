@@ -1,10 +1,10 @@
-var Thread = require('../app/models/thread');
-var Post = require('../app/models//post');
-var Read = require('../app/models/read');
-var Guild = require('../app/models/guild');
-var request = require('./request');
+var Thread = require('../models/thread');
+var Post = require('../models//post');
+var Read = require('../models/read');
+var Guild = require('../models/guild');
+// var request = require('./request');
 var __ = require('lodash');
-var color = require('colors');
+// var color = require('colors');
 var permission = require('../permissions');
 var CONFIG = require('../config/config');
 

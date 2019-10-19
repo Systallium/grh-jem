@@ -11,13 +11,13 @@ var https = require('https');
 var fs = require('fs');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var CONFIG = require('./app/config/config');
+var CONFIG = require('./config/config');
 var bodyParser = require('body-parser');
 var moment = require('moment');
 var markdown = require('markdown').markdown;
 var Guild = require('./models/guild');
 var request = require('./request');
-var KEYS = require('./app/config/keys');
+var KEYS = require('./config/keys');
 var env = 'dev';
 // var hbsHelpers = require('../handlebar-helper');
 
@@ -26,15 +26,10 @@ var env = 'dev';
  mysql setup
  *------------------------------------*/
 var db = require('./models')
-mysql.connect(CONFIG.databaseUrl);
-var port = process.env.NODE_ENV || 3000;
+
+var PORT = process.env.NODE_ENV || 3000;
 var app = express();
 
-db.sequelize.sync().then(function() {
-  app.listen(PORT, function(){
-    console.log("Listening on port %s", PORT);
-  })
-});
 /*------------------------------------*
  Passport setup
  *------------------------------------*/
@@ -51,7 +46,7 @@ var app = express();
 // configure Express
 app.use(cookieParser());
 app.use(session({
-  secret: KEYS.sessionSecret,
+  secret: KEYS.session.cookieKey,
   saveUninitialized: true,
   resave: true
 }));
@@ -64,9 +59,10 @@ app.use(bodyParser.urlencoded({ // to support URL-encoded bodies
   extended: true
 }));
 
-app.engine('.hbs', exphbs({
-  defaultLayout: 'master',
-  extname: '.hbs',
+app.set('view engine', 'hbs');
+app.engine('hbs', exphbs({
+  defaultLayout: 'main',
+  extname: 'hbs',
   helpers: {
     section: function (name, options) {
       if (!this._sections) this._sections = {};
@@ -278,7 +274,6 @@ app.engine('.hbs', exphbs({
     }
   }
 }));
-app.set('view engine', '.hbs');
 
 // Initialize Passport
 app.use(passport.initialize());
@@ -296,61 +291,65 @@ require('./config/routes')(app, passport);
  Initialization
  *------------------------------------*/
 
-var key = fs.readFileSync('./ssl-key.key', 'utf8');
-var cert = fs.readFileSync('./ssl-certificate.cert', 'utf8');
-var credentials = {
-  key: key,
-  cert: cert
-}; // ssl
-var server = https.createServer(credentials, app);
-var http = express();
+// var key = fs.readFileSync('./ssl-key.key', 'utf8');
+// var cert = fs.readFileSync('./ssl-certificate.cert', 'utf8');
+// var credentials = {
+//   key: key,
+//   cert: cert
+// }; // ssl
 
-// set up a route to redirect http to https
-http.get('*', function (req, res) {
-  res.redirect('https://' + CONFIG.prefix + '.' + CONFIG.hostName + req.url);
-});
-http.listen(80);
+// // set up a route to redirect http to https
+// http.get('*', function (req, res) {
+//   res.redirect('https://' + CONFIG.prefix + '.' + CONFIG.hostName + req.url);
+// });
 
 // start real server
-server.listen(443, function () {
-  console.log('Listening on port %d', server.address().port);
+// server.listen(443, function () {
+//   console.log('Listening on port %d', server.address().port);
 
-  Guild.findOne({}, function (err, guild) {
-    request.bnet(
-      'us.battle.net',
-      '/api/wow/guild/' + CONFIG.realm + '/' + encodeURIComponent(CONFIG.guild) + '?fields=members,news',
-      function (data) {
-        var lastUpdated = new Date().getTime();
-        if (guild !== null) {
-          for (var key in data) {
-            guild[key] = data[key];
-          }
+//   Guild.findOne({}, function (err, guild) {
+//     request.bnet(
+//       'us.battle.net',
+//       '/api/wow/guild/' + CONFIG.realm + '/' + encodeURIComponent(CONFIG.guild) + '?fields=members,news',
+//       function (data) {
+//         var lastUpdated = new Date().getTime();
+//         if (guild !== null) {
+//           for (var key in data) {
+//             guild[key] = data[key];
+//           }
 
-          guild.lastUpdated = lastUpdated;
-          guild.news = data.news;
-          guild.settings = {
-            webAdminBattletag: ''
-          };
+//           guild.lastUpdated = lastUpdated;
+//           guild.news = data.news;
+//           guild.settings = {
+//             webAdminBattletag: ''
+//           };
 
-          guild.save(function (err) {
-            if (err) throw err;
-          });
-        } else {
-          var newGuild = new Guild();
-          for (var key in data) {
-            newGuild[key] = data[key];
-          }
+//           guild.save(function (err) {
+//             if (err) throw err;
+//           });
+//         } else {
+//           var newGuild = new Guild();
+//           for (var key in data) {
+//             newGuild[key] = data[key];
+//           }
 
-          newGuild.lastUpdated = lastUpdated;
-          newGuild.settings = {
-            webAdminBattletag: ''
-          };
+//           newGuild.lastUpdated = lastUpdated;
+//           newGuild.settings = {
+//             webAdminBattletag: ''
+//           };
 
-          newGuild.save(function (err) {
-            if (err) throw err;
-          });
-        }
-      }
-    );
-  });
+//           newGuild.save(function (err) {
+//             if (err) throw err;
+//           });
+//         }
+//       }
+//     );
+//   });
+// });
+
+
+db.sequelize.sync({force: true}).then(function() {
+  app.listen(PORT, function(){
+    console.log("Listening on port %s", PORT);
+  })
 });
