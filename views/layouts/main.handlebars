@@ -2,14 +2,73 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/styles/styles.css" media="screen" title="no title" charset="utf-8">
-  <title>Home Page</title>
+	<title>Lost Legends &mdash; Tichondrius &middot; Horde</title>
+
+	<meta charset="utf-8">
+	<meta name="description"
+		content="The homepage of Lost Legends - Tichondrius, World of Warcraft Horde Guild. News, forums, gallery, roster and more.">
+
+	<base href="/">
+
+	<script type="text/javascript" src="//static.wowhead.com/widgets/power.js"></script>
+	<script>var wowhead_tooltips = { "colorlinks": true, "iconizelinks": false, "renamelinks": true }</script>
+
+	<link rel="shortcut icon" href="public/img/favicon.png">
+	<link rel="stylesheet" type="text/css" href="public/css/app.css">
+	{{!--<link rel="stylesheet" type="text/css" href="public/css/app.min.css">--}}
+	<link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-  {{{body}}}
+	<div class="page">
+
+		<header class="page-header page-section">
+			<div class="page-section-content">
+				<h1><a href="/">Lost Legends</a></h1>
+				<nav class="page-header-nav">
+					{{{_sections.nav}}}
+				</nav>
+			</div>
+		</header>
+
+		<nav class="page-breadcrumb page-section">
+			<div class="page-section-content">
+				<h2>
+					{{{_sections.breadcrumb}}}
+				</h2>
+				<nav class="page-breadcrumb-nav">
+					{{{_sections.breadcrumb_nav}}}
+				</nav>
+			</div>
+		</nav>
+
+		<div class="page-content page-section">
+			<div class="page-section-content">
+				{{{body}}}
+			</div>
+		</div>
+
+		<footer class="page-footer page-section">
+			<div class="page-section-content">
+				<h3>Lost Legends &mdash; Tichondrius &middot; Horde</h3>
+				<h4>powered by <a href="http://www.guild-boards.com" target="_blank">WoW Guild Boards</a> </h4>
+			</div>
+		</footer>
+
+	</div>
+
+
+	{{!-- Dependencies --}}
+
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone.js"></script>
+
+
+	{{!-- Local js files --}}
+
+	<script src="public/js/app.js"></script>
+	{{{_sections.scripts}}}
 </body>
 
 </html>
