@@ -1,70 +1,71 @@
 'use strict'
 module.exports = function(sequelize, DataTypes) {
     var Guild = sequelize.define('Guild', {
-    achievementPoints: Number,
-    battlegroup: String,
+
+    achievementPoints: DataTypes.NUMBER,
+    battlegroup: DataTypes.STRING,
     emblem: {
-        backgroundColor: String,
-        border: String,
-        borderColor: String,
-        icon: String,
-        iconColor: String
+        backgroundColor: DataTypes.STRING,
+        border: DataTypes.STRING,
+        borderColor: DataTypes.STRING,
+        icon: DataTypes.STRING,
+        iconColor: DataTypes.STRING
     },
 
-    lastUpdated: Date,
+    lastUpdated: DataTypes.Date,
     settings: {
-        webAdminBattletag: String
+        webAdminBattletag: DataTypes.STRING
     },
 
-    lastModified: Number,
-    level: Number,
+    lastModified: DataTypes.NUMBER,
+    level: DataTypes.NUMBER,
 
     members: [{
         character: {
-            achievementPoints: Number,
-            battlegroup: String,
-            class: Number,
-            gender: Number,
-            guild: String,
-            level: Number,
-            name: String,
-            race: Number,
-            realm: String,
+            achievementPoints: DataTypes.NUMBER,
+            battlegroup: DataTypes.STRING,
+            class: DataTypes.NUMBER,
+            gender: DataTypes.NUMBER,
+            guild: DataTypes.STRING,
+            level: DataTypes.NUMBER,
+            name: DataTypes.STRING,
+            race: DataTypes.NUMBER,
+            realm: DataTypes.STRING,
             spec: {
-                backgroundImage: String,
-                description: String,
-                icon: String,
-                name: String,
-                order: Number,
-                role: String
+                backgroundImage: DataTypes.STRING,
+                description: DataTypes.STRING,
+                icon: DataTypes.STRING,
+                name: DataTypes.STRING,
+                order: DataTypes.NUMBER,
+                role: DataTypes.STRING
             },
-            thumbnail: String
+            thumbnail: DataTypes.STRING
         },
-        rank: Number
+        rank: DataTypes.NUMBER
     }],
 
     news: [{
         achievement: {
             accountWide: Boolean,
             criteria: [],
-            description: String,
-            icon: String,
-            id: Number,
-            points: Number,
+            description: DataTypes.STRING,
+            icon: DataTypes.STRING,
+            id: DataTypes.NUMBER,
+            points: DataTypes.NUMBER,
             rewardItems: [],
-            title: String
+            title: DataTypes.STRING
         },
-        character: String,
-        timestamp: Number,
+        character: DataTypes.STRING,
+        timestamp: DataTypes.NUMBER,
         type: {
-            type: String
+            type: DataTypes.STRING
         },
-        itemId: Number
+        itemId: DataTypes.NUMBER
     }],
 
-    name: String,
-    realm: String,
-    side: Number
+    name: DataTypes.STRING,
+    realm: DataTypes.STRING,
+    side: DataTypes.NUMBER
 });
 return Guild;
 };

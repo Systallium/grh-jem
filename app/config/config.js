@@ -1,4 +1,3 @@
-
 module.exports = {
   guild: 'Lost Legends',
   realm: 'Tichondrius',
