@@ -11,13 +11,13 @@ var https = require('https');
 var fs = require('fs');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var CONFIG = require('./config/config');
+var CONFIG = require('./app/config/config');
 var bodyParser = require('body-parser');
 var moment = require('moment');
 var markdown = require('markdown').markdown;
-var Guild = require('../app/models/guild');
+var Guild = require('./models/guild');
 var request = require('./request');
-var KEYS = require('./config/keys');
+var KEYS = require('./app/config/keys');
 var env = 'dev';
 // var hbsHelpers = require('../handlebar-helper');
 

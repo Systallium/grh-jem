@@ -1,9 +1,8 @@
+'use strict'
 module.exports = function(sequelize, DataTypes) {
-    var Guild = sequelize.define("Guild", {
-        
+    var Guild = sequelize.define('Guild', {
     achievementPoints: Number,
     battlegroup: String,
-
     emblem: {
         backgroundColor: String,
         border: String,
@@ -67,5 +66,5 @@ module.exports = function(sequelize, DataTypes) {
     realm: String,
     side: Number
 });
-return Guild
+return Guild;
 };

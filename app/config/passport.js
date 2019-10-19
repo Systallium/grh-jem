@@ -2,7 +2,7 @@ var Keys            = require('./keys');
 var BNET_ID         = Keys.key;
 var BNET_SECRET     = Keys.secret;
 var BnetStrategy    = require('passport-bnet').Strategy;
-var User            = require('../models/user');
+var User            = require('../../models/user');
 var userController  = require('../controllers/user');
 var CONFIG          = require('./config');
 
