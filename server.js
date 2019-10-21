@@ -18,7 +18,7 @@ var markdown = require('markdown').markdown;
 var Guild = require('./models/guild');
 var request = require('./request');
 var KEYS = require('./config/keys');
-var env = 'dev';
+var env = 'prod';
 // var hbsHelpers = require('../handlebar-helper');
 
 
@@ -279,73 +279,19 @@ app.engine('hbs', exphbs({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get('/auth/bnet',
+    passport.authenticate('bnet'));
 
+app.get('/auth/bnet/callback',
+    passport.authenticate('bnet', { failureRedirect: '/' }),
+    function(req, res){
+        res.redirect('/');
+    });
 /*------------------------------------*
  Routes
  *------------------------------------*/
 
 require('./config/routes')(app, passport);
-
-
-/*------------------------------------*
- Initialization
- *------------------------------------*/
-
-// var key = fs.readFileSync('./ssl-key.key', 'utf8');
-// var cert = fs.readFileSync('./ssl-certificate.cert', 'utf8');
-// var credentials = {
-//   key: key,
-//   cert: cert
-// }; // ssl
-
-// // set up a route to redirect http to https
-// http.get('*', function (req, res) {
-//   res.redirect('https://' + CONFIG.prefix + '.' + CONFIG.hostName + req.url);
-// });
-
-// start real server
-// server.listen(443, function () {
-//   console.log('Listening on port %d', server.address().port);
-
-//   Guild.findOne({}, function (err, guild) {
-//     request.bnet(
-//       'us.battle.net',
-//       '/api/wow/guild/' + CONFIG.realm + '/' + encodeURIComponent(CONFIG.guild) + '?fields=members,news',
-//       function (data) {
-//         var lastUpdated = new Date().getTime();
-//         if (guild !== null) {
-//           for (var key in data) {
-//             guild[key] = data[key];
-//           }
-
-//           guild.lastUpdated = lastUpdated;
-//           guild.news = data.news;
-//           guild.settings = {
-//             webAdminBattletag: ''
-//           };
-
-//           guild.save(function (err) {
-//             if (err) throw err;
-//           });
-//         } else {
-//           var newGuild = new Guild();
-//           for (var key in data) {
-//             newGuild[key] = data[key];
-//           }
-
-//           newGuild.lastUpdated = lastUpdated;
-//           newGuild.settings = {
-//             webAdminBattletag: ''
-//           };
-
-//           newGuild.save(function (err) {
-//             if (err) throw err;
-//           });
-//         }
-//       }
-//     );
-//   });
-// });
 
 
 db.sequelize.sync({force: true}).then(function() {

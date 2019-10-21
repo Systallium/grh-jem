@@ -22,7 +22,8 @@ module.exports = function(passport) {
             clientID: BNET_ID,
             clientSecret: BNET_SECRET,
             scope: 'wow.profile',
-            callbackURL: 'https://'+CONFIG.prefix+'.'+CONFIG.hostName+'/auth/bnet/callback'
+            callbackURL: "https://localhost:3000/auth/bnet/callback",
+            region: "us"
         },
         function (accessToken, refreshToken, profile, done) {
 
@@ -30,12 +31,6 @@ module.exports = function(passport) {
             profile.oauth = {
                 accessToken: accessToken
             };
-
-            process.nextTick(function() {
-                User.findOne({ 'bnetId': profile.id }, function(err, user) {
-                    return userController.login(profile, err, user, done);
-                });
-            });
-        })
-    );
+            return done(null, profile);
+            }));
 };

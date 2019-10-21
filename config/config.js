@@ -1,5 +1,7 @@
 module.exports = {
-  guild: 'Lost Legends',
-  realm: 'Tichondrius',
   region: 'us',
+  realm: 'tichondrius',
+  guild: 'lost-legends',
+  namespace: 'profile-us',
+  locale: 'en_US',
 };
